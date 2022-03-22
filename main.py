@@ -13,12 +13,14 @@ films_db = {}
 class Film(BaseModel):
     title: str
     director: str
+    summary: str
     poster: Optional[str]
 
 
 class FilmUpdate(BaseModel):
     title: Optional[str]
     director: Optional[str]
+    summary: Optional[str]
     poster: Optional[str]
 
 
@@ -55,10 +57,12 @@ def post_film(film: Film):
     global id_count
     id_count += 1
 
-    data = {"id": id_count}
-    data = {**data, **dict(film)}
+    data = {
+        "id": id_count,
+        "poster": None,
+        **dict(film)
+    }
 
-    data["poster"] = None
     films_db[id_count] = data
 
     return {
